@@ -15,7 +15,7 @@ import { db } from '../../firebase/fbConfig';
 import { useProgress } from '../../contexts/ProgressContext';
 import * as Animatable from 'react-native-animatable';
 
-const quizScreen = ({ navigation, route }) => {
+const QuizScreen = ({ navigation, route }) => {
   const { unitId, unitTitle } = route.params;
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -136,7 +136,7 @@ const quizScreen = ({ navigation, route }) => {
     // Save quiz completion
     await completeQuiz(unitId, score);
 
-    navigation.navigate('quizResults', {
+    navigation.navigate('QuizResults', {
       questions,
       selectedAnswers,
       score,
@@ -184,8 +184,8 @@ const quizScreen = ({ navigation, route }) => {
             <Text style={styles.videoLabel}>What is this sign ?</Text>
             <YoutubePlayer
               height={180}
-              videoId={videoId}  // Pass the videoId here
-              play={false} // Set to `true` if you want the video to play immediately
+              videoId={videoId}
+              play={false}
             />
           </View>
         ) : null}
@@ -194,13 +194,13 @@ const quizScreen = ({ navigation, route }) => {
           choices={currentQuestion.choices}
           selectedAnswer={selectedAnswer}
           onSelect={handleAnswerSelect}
-          animationValue={selectedAnswerAnimation} // Pass animation value to options
+          animationValue={selectedAnswerAnimation}
         />
       </ScrollView>
 
       <NavigationButtons
         isFirst={currentQuestionIndex === 0}
-        isLast={isLastQuestion}
+        isLast={currentQuestionIndex === questions.length - 1}
         hasSelection={!!selectedAnswer}
         onPrev={() => navigateQuestion('prev')}
         onNext={() => navigateQuestion('next')}
@@ -455,4 +455,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default quizScreen;
+export default QuizScreen;

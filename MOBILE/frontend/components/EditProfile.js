@@ -277,7 +277,11 @@ const EditProfile = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#3B82F6", padding: 16 },
+  container: { 
+    flex: 1, 
+    backgroundColor: "#3B82F6", 
+    padding: 16 
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -291,27 +295,75 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
-  headerTitle: { fontSize: 22, fontWeight: "bold", color: "#fff" },
-  saveButton: { color: "#fff", fontSize: 16, fontWeight: "bold" },
-  cancelButton: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  headerTitle: { 
+    fontSize: 22, 
+    fontWeight: "bold", 
+    color: "#fff" 
+  },
+  saveButton: { 
+    color: "#fff", 
+    fontSize: 16, 
+    fontWeight: "bold" 
+  },
+  cancelButton: { 
+    color: "#fff", 
+    fontSize: 16, 
+    fontWeight: "bold" 
+  },
 
   // Profile Picture Styles
-  profilePicContainer: { alignItems: "center", marginBottom: 30 },
-  profilePic: { width: 120, height: 120, borderRadius: 60, borderWidth: 2, borderColor: "#fff", marginBottom: 10, marginTop : 10 },
-  changePicButton: { backgroundColor: "#374ef5", padding: 10, borderRadius: 25 },
-  changePicText: { color: "#fff", fontWeight: "bold" },
+  profilePicContainer: { 
+    alignItems: "center", 
+    marginBottom: 30 
+  },
+  profilePic: { 
+    width: 120, 
+    height: 120, 
+    borderRadius: 60, 
+    borderWidth: 2, 
+    borderColor: "#fff", 
+    marginBottom: 10, 
+    marginTop: 10 
+  },
+  changePicButton: { 
+    backgroundColor: "#374ef5", 
+    padding: 10, 
+    borderRadius: 25 
+  },
+  changePicText: { 
+    color: "#fff", 
+    fontWeight: "bold" 
+  },
 
   // Mode Toggle Styles
-  modeToggle: { flexDirection: "row", justifyContent: "space-around", marginBottom: 20 },
-  modeButton: { paddingVertical: 10, paddingHorizontal: 10, borderRadius: 25 },
+  modeToggle: { 
+    flexDirection: "row", 
+    justifyContent: "space-around", 
+    marginBottom: 20 
+  },
+  modeButton: { 
+    paddingVertical: 10, 
+    paddingHorizontal: 10, 
+    borderRadius: 25 
+  },
   
   // Updated Active and Inactive Mode Buttons
-  activeModeButton: { backgroundColor: "#374ef5" },  // Active button color
-  modeText: { color: "#fff", fontWeight: "bold" },  // Inactive text color
-  activeModeText: { color: "#fff", fontWeight: "bold" },  // Active text color
+  activeModeButton: { 
+    backgroundColor: "#374ef5" 
+  },
+  modeText: { 
+    color: "#fff", 
+    fontWeight: "bold" 
+  },
+  activeModeText: { 
+    color: "#fff", 
+    fontWeight: "bold" 
+  },
 
   // Form Fields and Inputs
-  form: { flex: 1 },
+  form: { 
+    flex: 1 
+  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -324,13 +376,36 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
   },
-  input: { flex: 1, marginLeft: 10, fontSize: 16, color: "#000" },
+  input: { 
+    flex: 1, 
+    marginLeft: 10, 
+    fontSize: 16, 
+    color: "#000" 
+  },
 
   // Delete Section Styles
-  deleteContainer: { padding: 20 },
-  deleteWarning: { color: "red", fontSize: 16, marginBottom: 20, textAlign: "center", fontWeight:"bold" },
-  deleteButton: { backgroundColor: "red", padding: 15, borderRadius: 8, alignItems: "center", marginTop: 20 },
-  deleteButtonText: { color: "#fff", fontSize: 16, fontWeight: "bold" },
+  deleteContainer: { 
+    padding: 20 
+  },
+  deleteWarning: { 
+    color: "red", 
+    fontSize: 16, 
+    marginBottom: 20, 
+    textAlign: "center", 
+    fontWeight: "bold" 
+  },
+  deleteButton: { 
+    backgroundColor: "red", 
+    padding: 15, 
+    borderRadius: 8, 
+    alignItems: "center", 
+    marginTop: 20 
+  },
+  deleteButtonText: { 
+    color: "#fff", 
+    fontSize: 16, 
+    fontWeight: "bold" 
+  },
 });
 
 export default EditProfile;

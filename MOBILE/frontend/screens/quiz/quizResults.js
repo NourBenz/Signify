@@ -5,7 +5,7 @@ import { useProgress } from '../../contexts/ProgressContext';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 
-const quizResults = ({ route, navigation }) => {
+const QuizResults = ({ route, navigation }) => {
   const { questions, selectedAnswers, score, unitTitle, unitId } = route.params;
   const { getQuizScore } = useProgress();
   const previousScore = getQuizScore(unitId);
@@ -236,4 +236,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default quizResults;
+export default QuizResults;
