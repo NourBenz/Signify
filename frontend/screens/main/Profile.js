@@ -14,6 +14,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useProgress } from "../../contexts/ProgressContext";
 import { Ionicons } from "@expo/vector-icons";
 import { BADGES } from "../../contexts/ProgressContext";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -65,11 +66,7 @@ const Profile = () => {
     >
       <View style={styles.profileHeader}>
         <Image
-          source={
-            userProfile?.profilePicture
-              ? { uri: userProfile.profilePicture }
-              : require("../../assets/LP/LP1.png")
-          }
+          source={userProfile?.profilePicture ? { uri: userProfile.profilePicture } : require("../../assets/LP/LP1.png")}
           style={styles.profileImage}
         />
         <Text style={styles.userName}>
@@ -133,10 +130,7 @@ const Profile = () => {
             <Text style={styles.nextBadgeTitle}>Next Badge: {nextBadge.badge.name}</Text>
             <View style={styles.progressBar}>
               <View 
-                style={[
-                  styles.progressFill, 
-                  { width: `${nextBadge.progress}%` }
-                ]} 
+                style={[styles.progressFill, { width: `${nextBadge.progress}%` }]} 
               />
             </View>
             <Text style={styles.progressText}>
@@ -156,7 +150,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#f9f9f9",
   },
   contentContainer: {
     paddingBottom: 90, // Add padding to account for the bottom tab bar
@@ -167,20 +161,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#3B82F6",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
+    borderRadius: 15,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     marginBottom: 10,
   },
   userName: {
     fontSize: 22,
     fontWeight: "bold",
+    color: "#fff",
   },
   userEmail: {
     fontSize: 16,
-    color: "black",
+    color: "#fff",
   },
   badgeContainer: {
     flexDirection: "row",
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
   editButton: {
     marginTop: 15,
     padding: 10,
-    backgroundColor: "#ffb702",
+    backgroundColor: "#374ef5",
     borderRadius: 8,
   },
   editButtonText: {
@@ -215,8 +216,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   statsContainer: {
-    padding: 20,
-    
+    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 20,
@@ -228,41 +228,39 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 20,
-    
   },
   statItem: {
     width: "48%",
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 15,
     marginBottom: 15,
     alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: 3,
     elevation: 2,
   },
   statValue: {
     fontSize: 24,
     fontWeight: "bold",
-    marginVertical: 5,
     color: "#333",
+    marginBottom: 5,
   },
   statLabel: {
     fontSize: 14,
     color: "#666",
   },
   nextBadgeContainer: {
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 15,
     marginTop: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowRadius: 3,
     elevation: 2,
   },
   nextBadgeTitle: {
@@ -289,9 +287,10 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     margin: 20,
-    padding: 15,
+    padding: 20,
+   
     backgroundColor: "red",
-    borderRadius: 8,
+    borderRadius: 16,
     alignItems: "center",
   },
   signOutButtonText: {

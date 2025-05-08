@@ -151,7 +151,7 @@ const DailyChallengeScreen = () => {
                             key={index}
                             style={[
                                 styles.choiceButton,
-                                { backgroundColor: index % 2 === 0 ? '#fff' : '#fff' }
+                                { backgroundColor: index % 2 === 0 ? '#84b1f9' : '#84b1f9' }
                             ]}
                             onPress={() => handleAnswer(choice.isCorrect)}
                         >
@@ -182,12 +182,13 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         paddingTop: 20,
-        backgroundColor: "#B3EBF2"
+        backgroundColor: "#3B82F6"
     },
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        
     },
     header: {
         marginTop: 20,
@@ -239,7 +240,7 @@ const styles = StyleSheet.create({
     },
     progressText: {
         fontSize: 16,
-        color: '#555',
+        color: '#fff',
         fontWeight: '600',
     },
     scoreText: {

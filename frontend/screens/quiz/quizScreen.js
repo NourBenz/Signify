@@ -6,13 +6,14 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-  Alert
+  Alert,
+  Animated
 } from 'react-native';
 import YoutubePlayer from 'react-native-youtube-iframe';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/fbConfig';
 import { useProgress } from '../../contexts/ProgressContext';
-import LessonDetail from '../main/LessonDetail';
+import * as Animatable from 'react-native-animatable';
 
 const quizScreen = ({ navigation, route }) => {
   const { unitId, unitTitle } = route.params;
@@ -22,8 +23,10 @@ const quizScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [selectedAnswerAnimation, setSelectedAnswerAnimation] = useState(new Animated.Value(0)); // Pulse effect animation
+
   const { completeQuiz, isQuizCompleted, isLessonCompleted } = useProgress();
-  
+
   // Check if quiz is locked
   useEffect(() => {
     const checkQuizLock = async () => {
@@ -31,11 +34,11 @@ const quizScreen = ({ navigation, route }) => {
         const videosRef = collection(db, 'units', unitId, 'videos');
         const videosSnapshot = await getDocs(videosRef);
         const totalVideos = videosSnapshot.size;
-        
-        const completedVideos = videosSnapshot.docs.filter(doc => 
+
+        const completedVideos = videosSnapshot.docs.filter(doc =>
           isLessonCompleted(doc.id)
         ).length;
-        
+
         if (completedVideos < totalVideos) {
           Alert.alert(
             'Quiz Locked',
@@ -47,17 +50,31 @@ const quizScreen = ({ navigation, route }) => {
         console.error('Error checking quiz lock:', error);
       }
     };
-    
+
     checkQuizLock();
   }, [unitId, isLessonCompleted]);
 
-  // Handle answer selection
+  // Handle answer selection with animation
   const handleAnswerSelect = (answer) => {
     setSelectedAnswer(answer);
     setSelectedAnswers(prev => ({
       ...prev,
       [currentQuestionIndex]: answer
     }));
+
+    // Trigger the pulse animation
+    Animated.sequence([
+      Animated.timing(selectedAnswerAnimation, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(selectedAnswerAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   // Fetch questions from Firestore
@@ -113,12 +130,12 @@ const quizScreen = ({ navigation, route }) => {
     const correctCount = questions.reduce((count, q, index) => (
       count + (selectedAnswers[index] === q.correctAnswer ? 1 : 0)
     ), 0);
-    
+
     const score = Math.round((correctCount / questions.length) * 100);
-    
+
     // Save quiz completion
     await completeQuiz(unitId, score);
-    
+
     navigation.navigate('quizResults', {
       questions,
       selectedAnswers,
@@ -137,12 +154,12 @@ const quizScreen = ({ navigation, route }) => {
       console.error("Error: Video URL is undefined or null");
       return null;
     }
-  
+
     // Regular expression to extract the YouTube video ID from both full URLs and shortened youtu.be URLs
     const regExp = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S+\?v=|(?:v|e(?:mbed))\/|\S+&v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-  
+
     const match = url.match(regExp);
-  
+
     if (match && match[1]) {
       return match[1]; // Return the video ID if match found
     } else {
@@ -150,48 +167,47 @@ const quizScreen = ({ navigation, route }) => {
       return null; // Return null if no valid video ID was found
     }
   };
-  
+
   const currentQuestion = questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
   const videoId = currentQuestion.videoURL ? getYouTubeVideoId(currentQuestion.videoURL) : null;
 
-return (
-  <View style={styles.container}>
-    <Header unitTitle={unitTitle} navigation={navigation} />
-    <ProgressIndicator current={currentQuestionIndex + 1} total={questions.length} />
-    <ScrollView contentContainerStyle={styles.content}>
-      <Text style={styles.questionText}>{currentQuestion.question}</Text>
+  return (
+    <View style={styles.container}>
+      <Header unitTitle={unitTitle} navigation={navigation} />
+      <ProgressIndicator current={currentQuestionIndex + 1} total={questions.length} />
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.questionText}>{currentQuestion.question}</Text>
 
-      {videoId ? (
-        <View style={styles.videoContainer}>
-          <Text style={styles.videoLabel}>What is this sign ?</Text>
-          <YoutubePlayer
-            height={180}
-            videoId={videoId}  // Pass the videoId here
-            play={false} // Set to `true` if you want the video to play immediately
-          />
-        </View>
-      ) : null}
+        {videoId ? (
+          <View style={styles.videoContainer}>
+            <Text style={styles.videoLabel}>What is this sign ?</Text>
+            <YoutubePlayer
+              height={180}
+              videoId={videoId}  // Pass the videoId here
+              play={false} // Set to `true` if you want the video to play immediately
+            />
+          </View>
+        ) : null}
 
-      <OptionsList
-        choices={currentQuestion.choices}
-        selectedAnswer={selectedAnswer}
-        onSelect={handleAnswerSelect}
+        <OptionsList
+          choices={currentQuestion.choices}
+          selectedAnswer={selectedAnswer}
+          onSelect={handleAnswerSelect}
+          animationValue={selectedAnswerAnimation} // Pass animation value to options
+        />
+      </ScrollView>
+
+      <NavigationButtons
+        isFirst={currentQuestionIndex === 0}
+        isLast={isLastQuestion}
+        hasSelection={!!selectedAnswer}
+        onPrev={() => navigateQuestion('prev')}
+        onNext={() => navigateQuestion('next')}
+        onSubmit={handleSubmit}
       />
-    </ScrollView>
-
-    <NavigationButtons
-      isFirst={currentQuestionIndex === 0}
-      isLast={isLastQuestion}
-      hasSelection={!!selectedAnswer}
-      onPrev={() => navigateQuestion('prev')}
-      onNext={() => navigateQuestion('next')}
-      onSubmit={handleSubmit}
-    />
-  </View>
-);
-
-  
+    </View>
+  );
 };
 
 // Sub-components for better organization
@@ -239,26 +255,36 @@ const ProgressIndicator = ({ current, total }) => (
       Question {current} of {total}
     </Text>
     <View style={styles.progressBar}>
-      <View style={[
-        styles.progressFill,
-        { width: `${(current / total) * 100}%` }
-      ]} />
+      <View style={[styles.progressFill, { width: `${(current / total) * 100}%` }]} />
     </View>
   </View>
 );
 
-const OptionsList = ({ choices, selectedAnswer, onSelect }) => (
+const OptionsList = ({ choices, selectedAnswer, onSelect, animationValue }) => (
   <View style={styles.optionsContainer}>
     {choices.map((choice, index) => (
       <TouchableOpacity
         key={index}
         style={[
           styles.option,
-          selectedAnswer === choice && styles.selectedOption
+          selectedAnswer === choice && styles.selectedOption,
         ]}
         onPress={() => onSelect(choice)}
       >
-        <Text style={styles.optionText}>{choice}</Text>
+        <Animated.View
+          style={{
+            transform: [
+              {
+                scale: animationValue.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 1.1],
+                }),
+              },
+            ],
+          }}
+        >
+          <Text style={styles.optionText}>{choice}</Text>
+        </Animated.View>
       </TouchableOpacity>
     ))}
   </View>
@@ -270,35 +296,24 @@ const NavigationButtons = ({
   hasSelection,
   onPrev,
   onNext,
-  onSubmit
+  onSubmit,
 }) => (
   <View style={styles.navigationButtons}>
     {!isFirst && (
-      <TouchableOpacity
-        style={[styles.navButton, styles.prevButton]}
-        onPress={onPrev}
-      >
+      <TouchableOpacity style={[styles.navButton, styles.prevButton]} onPress={onPrev}>
         <Text style={styles.navButtonText}>Previous</Text>
       </TouchableOpacity>
     )}
-
     <TouchableOpacity
-      style={[
-        styles.navButton,
-        styles.nextButton,
-        !hasSelection && styles.disabledButton
-      ]}
+      style={[styles.navButton, styles.nextButton, !hasSelection && styles.disabledButton]}
       onPress={isLast ? onSubmit : onNext}
       disabled={!hasSelection}
     >
-      <Text style={styles.navButtonText}>
-        {isLast ? 'Submit Quiz' : 'Next'}
-      </Text>
+      <Text style={styles.navButtonText}>{isLast ? 'Submit Quiz' : 'Next'}</Text>
     </TouchableOpacity>
   </View>
 );
 
-// Updated styles with smaller choice boxes
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -377,7 +392,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
     backgroundColor: '#ADD8E6',
-    alignItems:'center'
+    alignItems: 'center',
   },
   selectedOption: {
     borderColor: '#3B82F6',
@@ -399,7 +414,6 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
-    
   },
   prevButton: {
     backgroundColor: '#f0f0f0',
@@ -410,7 +424,6 @@ const styles = StyleSheet.create({
   },
   disabledButton: {
     backgroundColor: '#a0c4ff',
-    
   },
   navButtonText: {
     fontWeight: 'bold',
@@ -439,7 +452,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default quizScreen;

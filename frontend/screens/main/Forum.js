@@ -112,7 +112,7 @@ const Forum = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#374ef5",
   },
   contentContainer: {
     padding: 16,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addCommentButtonText: {
-    color: "#000",
+    color: "#374ef5",
     fontWeight: "bold",
   },
   commentInputContainer: {
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   },
   commentButton: {
     padding: 8,
-    backgroundColor: "#ffb702", // Yellow button
+    backgroundColor: "#374ef5", // Yellow button
     borderRadius: 8,
     alignItems: "center",
   },
