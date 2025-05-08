@@ -17,7 +17,7 @@ const UnitStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-       
+
       }}
     >
       <Stack.Screen
