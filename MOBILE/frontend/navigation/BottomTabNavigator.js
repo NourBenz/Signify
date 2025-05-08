@@ -3,6 +3,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Forum from '../screens/main/Forum';
+import LearnScreen from '../screens/main/LearnScreen';
 import ProfileStack from '../navigation/profileNav'; 
 import UnitStack from '../navigation/unitsNav'; 
 import HomeScreen from '../components/HomeScreen';
@@ -10,6 +12,17 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
+const LearnScreen2 = () => (
+  <View style={styles.screen}>
+    <LearnScreen />
+  </View>
+);
+
+const ForumScreen = () => (
+  <View style={styles.screen}>
+    <Forum />
+  </View>
+);
 
 const BottomTabNavigator = () => {
   return (
