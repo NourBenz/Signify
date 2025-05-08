@@ -204,7 +204,7 @@ const LearnScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#3B82F6",
   },
   dailyChallengeButton: {
     backgroundColor: '#ffe066',
@@ -241,12 +241,13 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   unitList: {
-    paddingHorizontal: 8,
+    
+    paddingHorizontal: 5 ,
     paddingTop: 8,
     paddingBottom: 90, // Add padding to account for the bottom tab bar
   },
   unitCard: {
-    width: screenWidth * 0.46,
+    width: screenWidth * 0.45,
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 12,
@@ -283,6 +284,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#e0e0e0",
     borderRadius: 5,
     overflow: "hidden",
+    marginTop : 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   progressFill: {
     height: "100%",

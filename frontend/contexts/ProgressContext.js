@@ -6,16 +6,16 @@ import { useAuth } from './AuthContext';
 const ProgressContext = createContext();
 
 export const BADGES = {
-  BEGINNER: { name: 'Beginner', points: 50, icon: '🌱' },
-  LEARNER: { name: 'Learner', points: 150, icon: '📚' },
-  SKILLED: { name: 'Skilled', points: 300, icon: '🎯' },
-  FLUENT: { name: 'Fluent', points: 600, icon: '🌟' },
-  MASTER: { name: 'Master', points: 1000, icon: '👑' }
+  BEGINNER: { name: 'Beginner', points: 100, icon: '🌱' },
+  LEARNER: { name: 'Learner', points: 200, icon: '📚' },
+  SKILLED: { name: 'Skilled', points: 400, icon: '🎯' },
+  FLUENT: { name: 'Fluent', points: 700, icon: '🌟' },
+  MASTER: { name: 'Master', points: 1500, icon: '👑' }
 };
 
 export const POINTS = {
   DAILY_LOGIN: 5,
-  LESSON_COMPLETION: 10,
+  LESSON_COMPLETION: 5,
   UNIT_COMPLETION: 10,
   QUIZ_COMPLETION: 20
 };

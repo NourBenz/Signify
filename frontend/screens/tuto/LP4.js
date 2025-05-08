@@ -12,7 +12,7 @@ const LP4 = ({ navigation }) => {
 
       {/* Welcome Text */}
       <Text style={styles.welcomeText}>Welcome to</Text>
-      <Text style={styles.title}>WAVY</Text>
+      <Text style={styles.title}>SIGNIFY</Text>
 
       {/* Buttons */}
       <View style={styles.buttonContainer}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#3B82F6',
     padding: 20,
   },
   image: {
@@ -52,13 +52,13 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     marginBottom: 10,
-    color: '#333', // Darker text for better readability
+    color: '#fff', // Darker text for better readability
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 40,
-    color: '#374ef5', // Theme color
+    color: "#f7a803",  // Theme color
   },
   buttonContainer: {
     width: '100%',

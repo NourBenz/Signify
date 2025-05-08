@@ -156,7 +156,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f8f9fa",
   },
   contentContainer: {
     paddingBottom: 90, // Add padding to account for the bottom tab bar
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   profileHeader: {
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#3B82F6",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
   },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   userEmail: {
     fontSize: 16,
-    color: "gray",
+    color: "black",
   },
   badgeContainer: {
     flexDirection: "row",
@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     padding: 20,
+    
   },
   sectionTitle: {
     fontSize: 20,
@@ -228,6 +229,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     marginBottom: 20,
+    
   },
   statItem: {
     width: "48%",

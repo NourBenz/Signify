@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: '#3B82F6',
     padding: 20,
   },
   image: {
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 24,
     marginBottom: 10,
-    color: "#333", // Darker text for better readability
+    color: "#fff", // Darker text for better readability
   },
   title: {
     fontSize: 32, // Slightly larger for emphasis
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#374ef5", // Matching the theme color
+    color: "#f7a803", // Matching the theme color
     paddingBottom: 40,
   },
   description: {

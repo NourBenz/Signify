@@ -74,7 +74,6 @@ const BottomTabNavigator = () => {
   }}
 
       />
-      
       <Tab.Screen 
         name="Forum" 
         component={HomeScreen}

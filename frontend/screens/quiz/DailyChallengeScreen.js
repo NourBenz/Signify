@@ -118,20 +118,27 @@ const DailyChallengeScreen = () => {
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
+
                 {/* Header with Quit Button */}
                 <View style={styles.header}>
                     <Text style={styles.progressText}>
                         Question {currentVideoIndex + 1} / {videos.length}
                     </Text>
-                    <TouchableOpacity onPress={handleQuitChallenge}>
+
+                    <TouchableOpacity 
+                        onPress={handleQuitChallenge}>
                         <Text style={styles.quitButtonText}>Quit</Text>
                     </TouchableOpacity>
-                </View>
 
+                </View>
+                <View>
+                    {/* Score */}
+                    <Text style={styles.scoreText}>Score: {score}</Text>
+                </View>
                 {/* YouTube Video Player */}
                 <View style={styles.videoContainer}>
                     <YoutubePlayer
-                        height={180}
+                        height={215}
                         videoId={getYouTubeVideoId(currentVideo.videoURL)}
                         play={false}
                     />
@@ -144,7 +151,7 @@ const DailyChallengeScreen = () => {
                             key={index}
                             style={[
                                 styles.choiceButton,
-                                { backgroundColor: index % 2 === 0 ? '#4CAF50' : '#3B82F6' }
+                                { backgroundColor: index % 2 === 0 ? '#fff' : '#fff' }
                             ]}
                             onPress={() => handleAnswer(choice.isCorrect)}
                         >
@@ -153,8 +160,7 @@ const DailyChallengeScreen = () => {
                     ))}
                 </View>
 
-                {/* Score */}
-                <Text style={styles.scoreText}>Score: {score}</Text>
+
             </View>
         </SafeAreaView>
     );
@@ -170,12 +176,13 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: '#f8f9fa',
+
     },
     container: {
         flex: 1,
         paddingHorizontal: 20,
         paddingTop: 20,
-        backgroundColor: '#f8f9fa',
+        backgroundColor: "#B3EBF2"
     },
     loadingContainer: {
         flex: 1,
@@ -183,16 +190,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     header: {
+        marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 20,
+
     },
     quitButtonText: {
         fontSize: 16,
         color: '#E53935',
         fontWeight: 'bold',
+        
+
     },
+  
     videoContainer: {
         width: '100%',
         aspectRatio: 16 / 9,
@@ -200,6 +212,7 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         backgroundColor: '#000',
         overflow: 'hidden',
+        marginTop: 25,
     },
     choicesContainer: {
         width: '100%',
@@ -216,9 +229,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
+
     },
     choiceText: {
-        color: '#fff',
+        color: '#black',
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
@@ -230,10 +244,13 @@ const styles = StyleSheet.create({
     },
     scoreText: {
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        marginTop: 10,
+        marginTop: 20,
+        marginBottom: 10
+
+
     },
 });
 

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: '#3B82F6',
     padding: 20,
   },
   image: {
@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#374ef5", // Theme color
+    color: "#f7a803",  // Theme color
   },
   description: {
     fontSize: 18,
     textAlign: "center",
     marginBottom: 30,
-    color: "#555", // Slightly lighter for contrast
+    color: "#fff", // Slightly lighter for contrast
   },
   buttonContainer: {
     flexDirection: "row",
