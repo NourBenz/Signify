@@ -12,6 +12,17 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
+const LearnScreen2 = () => (
+  <View style={styles.screen}>
+    <LearnScreen />
+  </View>
+);
+
+const ForumScreen = () => (
+  <View style={styles.screen}>
+    <Forum />
+  </View>
+);
 
 const BottomTabNavigator = () => {
   return (
