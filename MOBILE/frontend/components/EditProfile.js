@@ -17,6 +17,8 @@ import { auth } from "../firebase/fbConfig";
 import { deleteAccount } from "../firebase/authServices";
 import { useAuth } from "../contexts/AuthContext";
 import { LinearGradient } from 'expo-linear-gradient';
+import * as ImagePicker from 'expo-image-picker'; // Import Expo Image Picker
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Firebase Storage
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,6 +31,29 @@ const EditProfile = ({ navigation }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState("details"); // 'details', 'password', or 'delete'
+  const [profilePicture, setProfilePicture] = useState(userProfile?.profilePicture || null);
+
+  // Handle the change picture action
+  const pickImage = async () => {
+    // Request permission to access the camera roll
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert("Permission Denied", "We need permission to access your gallery.");
+      return;
+    }
+
+    // Open the gallery to pick an image
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfilePicture(result.uri); // Set the selected image URI
+    }
+  };
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -39,7 +64,25 @@ const EditProfile = ({ navigation }) => {
           return;
         }
 
-        const success = await updateUserProfile({ firstName, lastName });
+        // If the user changed the profile picture, upload it to Firebase
+        let updatedProfilePicture = profilePicture;
+
+        if (profilePicture && !profilePicture.startsWith('http')) {
+          // Upload the image to Firebase Storage if it's a local URI
+          const storage = getStorage();
+          const storageRef = ref(storage, `profile_pictures/${user.uid}`);
+          
+          const response = await fetch(profilePicture);
+          const blob = await response.blob();
+          await uploadBytes(storageRef, blob);
+          updatedProfilePicture = await getDownloadURL(storageRef); // Get the image URL after uploading
+        }
+
+        // If profilePicture is undefined, set it to the current URL or a default value
+        updatedProfilePicture = updatedProfilePicture || userProfile?.profilePicture;
+
+        // Update user profile in Firestore
+        const success = await updateUserProfile({ firstName, lastName, profilePicture: updatedProfilePicture });
         if (success) {
           Alert.alert("Success", "Profile updated successfully!");
           navigation.goBack();
@@ -118,10 +161,10 @@ const EditProfile = ({ navigation }) => {
       {/* Profile Picture Section */}
       <View style={styles.profilePicContainer}>
         <Image
-          source={userProfile?.profilePicture ? { uri: userProfile.profilePicture } : require("../assets/LP/LP1.png")}
+          source={profilePicture ? { uri: profilePicture } : require("../assets/LP/LP1.png")}
           style={styles.profilePic}
         />
-        <TouchableOpacity style={styles.changePicButton}>
+        <TouchableOpacity style={styles.changePicButton} onPress={pickImage}>
           <Text style={styles.changePicText}>Change Picture</Text>
         </TouchableOpacity>
       </View>
@@ -232,6 +275,7 @@ const EditProfile = ({ navigation }) => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#3B82F6", padding: 16 },
   header: {
@@ -290,4 +334,3 @@ const styles = StyleSheet.create({
 });
 
 export default EditProfile;
-
