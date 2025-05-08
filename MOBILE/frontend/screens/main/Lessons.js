@@ -72,7 +72,7 @@ const Lessons = ({ route }) => {
           videoId: item.id,
           unitId,
           videoTitle: item.title,
-          videoURL: item.url,
+          videoUrl: item.url,
           description: item.description
         })}
       >

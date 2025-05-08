@@ -1,6 +1,5 @@
 //Units Stack
 import React from 'react';
-import { CommonActions } from '@react-navigation/native'; 
 import { createStackNavigator } from '@react-navigation/stack';
 import LearnScreen from '../screens/main/LearnScreen';
 import Lessons from '../screens/main/Lessons';
@@ -9,7 +8,7 @@ import quizScreen from '../screens/quiz/quizScreen';
 import quizResults from '../screens/quiz/quizResults';
 import { TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { CommonActions } from '@react-navigation/native'; // ⚡ Add this import at the top
 
 const Stack = createStackNavigator();
 
@@ -18,7 +17,7 @@ const UnitStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        //detachPreviousScreen: false,
+        detachPreviousScreen: false,
       }}
     >
       <Stack.Screen
