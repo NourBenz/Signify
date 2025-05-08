@@ -13,6 +13,7 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
+
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
