@@ -66,9 +66,9 @@ const BottomTabNavigator = () => {
           const hideTabBarScreens = [
             "Lessons",
             "LessonDetail",
-            "quizScreen",
+            "QuizScreen",
             "DailyChallenge",
-            "quizResults",
+            "QuizResults",
           ];
 
           if (hideTabBarScreens.includes(routeName)) {

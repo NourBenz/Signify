@@ -13,7 +13,7 @@ import YoutubePlayer from 'react-native-youtube-iframe';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase/fbConfig';
 import { useProgress } from '../../contexts/ProgressContext';
-import * as Animatable from 'react-native-animatable';
+
 
 const quizScreen = ({ navigation, route }) => {
   const { unitId, unitTitle } = route.params;
@@ -136,7 +136,7 @@ const quizScreen = ({ navigation, route }) => {
     // Save quiz completion
     await completeQuiz(unitId, score);
 
-    navigation.navigate('quizResults', {
+    navigation.navigate('QuizResults', {
       questions,
       selectedAnswers,
       score,

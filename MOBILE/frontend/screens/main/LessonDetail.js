@@ -66,7 +66,7 @@ const LessonDetail = ({ route, navigation }) => {
   const navigateToVideo = useCallback((index) => {
     if (index >= 0 && index < allVideos.length) {
       const video = allVideos[index];
-      navigation.replace("LessonDetail", { // ✅ use replace not navigate to avoid stacking screens
+      navigation.replace("LessonDetail", { 
         unitId,
         videoId: video.id,
       });

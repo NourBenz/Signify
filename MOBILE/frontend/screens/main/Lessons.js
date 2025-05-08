@@ -25,6 +25,14 @@ const Lessons = ({ route }) => {
     navigation.setOptions({
       title: unitTitle,
       headerBackTitleVisible: false,
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('LearnScreen')}
+          style={{ marginLeft: 16 }}
+        >
+          <Ionicons name="arrow-back" size={24} color="#000" />
+        </TouchableOpacity>
+      ),
     });
   }, [navigation, unitTitle]);
 
@@ -92,7 +100,7 @@ const Lessons = ({ route }) => {
   };
 
   const handleTakeQuiz = () => {
-    navigation.navigate("quizScreen", {
+    navigation.navigate("QuizScreen", {
       unitId,
       unitTitle
     });
