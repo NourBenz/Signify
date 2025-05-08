@@ -8,8 +8,8 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
-  Image,
-  Dimensions
+  Dimensions,
+  Image
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { reauthenticateWithCredential, EmailAuthProvider, updatePassword } from "firebase/auth";
@@ -17,8 +17,6 @@ import { auth } from "../firebase/fbConfig";
 import { deleteAccount } from "../firebase/authServices";
 import { useAuth } from "../contexts/AuthContext";
 import { LinearGradient } from 'expo-linear-gradient';
-import * as ImagePicker from 'expo-image-picker'; // Import Expo Image Picker
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'; // Import Firebase Storage
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,29 +29,6 @@ const EditProfile = ({ navigation }) => {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState("details"); // 'details', 'password', or 'delete'
-  const [profilePicture, setProfilePicture] = useState(userProfile?.profilePicture || null);
-
-  // Handle the change picture action
-  const pickImage = async () => {
-    // Request permission to access the camera roll
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert("Permission Denied", "We need permission to access your gallery.");
-      return;
-    }
-
-    // Open the gallery to pick an image
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setProfilePicture(result.uri); // Set the selected image URI
-    }
-  };
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -64,25 +39,8 @@ const EditProfile = ({ navigation }) => {
           return;
         }
 
-        // If the user changed the profile picture, upload it to Firebase
-        let updatedProfilePicture = profilePicture;
-
-        if (profilePicture && !profilePicture.startsWith('http')) {
-          // Upload the image to Firebase Storage if it's a local URI
-          const storage = getStorage();
-          const storageRef = ref(storage, `profile_pictures/${user.uid}`);
-          
-          const response = await fetch(profilePicture);
-          const blob = await response.blob();
-          await uploadBytes(storageRef, blob);
-          updatedProfilePicture = await getDownloadURL(storageRef); // Get the image URL after uploading
-        }
-
-        // If profilePicture is undefined, set it to the current URL or a default value
-        updatedProfilePicture = updatedProfilePicture || userProfile?.profilePicture;
-
         // Update user profile in Firestore
-        const success = await updateUserProfile({ firstName, lastName, profilePicture: updatedProfilePicture });
+        const success = await updateUserProfile({ firstName, lastName });
         if (success) {
           Alert.alert("Success", "Profile updated successfully!");
           navigation.goBack();
@@ -143,7 +101,6 @@ const EditProfile = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Profile Section */}
       <LinearGradient colors={['#1E40AF', '#3B82F6']} style={styles.header}>
         <TouchableOpacity onPress={handleCancel}>
           <Text style={styles.cancelButton}>Cancel</Text>
@@ -158,18 +115,13 @@ const EditProfile = ({ navigation }) => {
         </TouchableOpacity>
       </LinearGradient>
 
-      {/* Profile Picture Section */}
       <View style={styles.profilePicContainer}>
         <Image
-          source={profilePicture ? { uri: profilePicture } : require("../assets/LP/LP1.png")}
+          source={require("../assets/LP/LP1.png")}
           style={styles.profilePic}
         />
-        <TouchableOpacity style={styles.changePicButton} onPress={pickImage}>
-          <Text style={styles.changePicText}>Change Picture</Text>
-        </TouchableOpacity>
       </View>
 
-      {/* Mode Toggle */}
       <View style={styles.modeToggle}>
         <TouchableOpacity
           style={[styles.modeButton, editMode === "details" && styles.activeModeButton]}
@@ -191,12 +143,11 @@ const EditProfile = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Form Section */}
       <ScrollView style={styles.form}>
         {editMode === "details" ? (
           <>
             <View style={styles.inputContainer}>
-              <MaterialIcons name="person" size={24} color="#6200ee" />
+              <MaterialIcons name="person" size={28} color="#6200ee" />
               <TextInput
                 style={styles.input}
                 placeholder="First Name"
@@ -205,7 +156,7 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <MaterialIcons name="person-outline" size={24} color="#6200ee" />
+              <MaterialIcons name="person-outline" size={28} color="#6200ee" />
               <TextInput
                 style={styles.input}
                 placeholder="Last Name"
@@ -217,7 +168,7 @@ const EditProfile = ({ navigation }) => {
         ) : editMode === "password" ? (
           <>
             <View style={styles.inputContainer}>
-              <MaterialIcons name="lock" size={24} color="#6200ee" />
+              <MaterialIcons name="lock" size={28} color="#6200ee" />
               <TextInput
                 style={styles.input}
                 placeholder="Current Password"
@@ -227,7 +178,7 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <MaterialIcons name="lock-outline" size={24} color="#6200ee" />
+              <MaterialIcons name="lock-outline" size={28} color="#6200ee" />
               <TextInput
                 style={styles.input}
                 placeholder="New Password"
@@ -237,7 +188,7 @@ const EditProfile = ({ navigation }) => {
               />
             </View>
             <View style={styles.inputContainer}>
-              <MaterialIcons name="lock-outline" size={24} color="#6200ee" />
+              <MaterialIcons name="lock-outline" size={28} color="#6200ee" />
               <TextInput
                 style={styles.input}
                 placeholder="Confirm New Password"
@@ -252,7 +203,7 @@ const EditProfile = ({ navigation }) => {
             <View style={styles.deleteContainer}>
               <Text style={styles.deleteWarning}>Warning: This action cannot be undone.</Text>
               <View style={styles.inputContainer}>
-                <MaterialIcons name="lock" size={24} color="#6200ee" />
+                <MaterialIcons name="lock" size={28} color="#6200ee" />
                 <TextInput
                   style={styles.input}
                   placeholder="Enter your password to confirm"
@@ -311,30 +262,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold" 
   },
 
-  // Profile Picture Styles
-  profilePicContainer: { 
-    alignItems: "center", 
-    marginBottom: 30 
-  },
-  profilePic: { 
-    width: 120, 
-    height: 120, 
-    borderRadius: 60, 
-    borderWidth: 2, 
-    borderColor: "#fff", 
-    marginBottom: 10, 
-    marginTop: 10 
-  },
-  changePicButton: { 
-    backgroundColor: "#374ef5", 
-    padding: 10, 
-    borderRadius: 25 
-  },
-  changePicText: { 
-    color: "#fff", 
-    fontWeight: "bold" 
-  },
-
   // Mode Toggle Styles
   modeToggle: { 
     flexDirection: "row", 
@@ -367,7 +294,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 20,
     backgroundColor: "#fff",
     borderRadius: 15,
     padding: 12,
@@ -405,6 +332,22 @@ const styles = StyleSheet.create({
     color: "#fff", 
     fontSize: 16, 
     fontWeight: "bold" 
+  },
+
+  // Profile Picture Styles
+  profilePicContainer: { 
+    alignItems: "center", 
+    marginBottom: 40 ,
+    marginTop: 40
+  },
+  profilePic: { 
+    width: 150, 
+    height:150, 
+    borderRadius: 60, 
+    borderWidth: 2, 
+    borderColor: "#fff", 
+    marginBottom: 10, 
+    marginTop: 10 
   },
 });
 
