@@ -76,24 +76,19 @@ const LessonDetail = ({ route, navigation }) => {
   const markAsWatched = useCallback(async () => {
     try {
       setLoading(true);
-
+  
       const alreadyCompleted = isLessonCompleted(videoId);
       if (alreadyCompleted) {
-        Alert.alert("Info", "This lesson was already completed!", [{ text: "OK" }]);
-        return;
+        return; // Just return without showing alert
       }
-
+  
       const success = await completeLesson(videoId, unitId);
       if (success) {
         setWatched(true);
         setIsRepeat(true);
-        Alert.alert("Success", "Lesson marked as completed!", [{ text: "OK" }]);
-      } else {
-        Alert.alert("Error", "Failed to mark lesson as completed.", [{ text: "OK" }]);
       }
     } catch (error) {
       console.error("Error marking as watched:", error);
-      Alert.alert("Error", "Failed to mark lesson as completed.", [{ text: "OK" }]);
     } finally {
       setLoading(false);
     }

@@ -46,11 +46,6 @@ const AppNavigator = () => {
             <Stack.Screen name="MainApp" component={BottomTabNavigator} />
             <Stack.Screen name="QuestionDetail" component={QuestionDetailScreen} />
             <Stack.Screen name="PostQuestion" component={PostQuestionScreen} />
-            <Stack.Screen name="DailyChallenge" component={DailyChallengeScreen} />
-            <Stack.Screen name="Learn" component={LearnScreen} />
-            <Stack.Screen name="Lessons" component={Lessons} />
-            
-          
           </>
         )}
       </Stack.Navigator>
