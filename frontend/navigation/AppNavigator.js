@@ -11,13 +11,13 @@ import LP1 from '../screens/tuto/LP1';
 import LP2 from '../screens/tuto/LP2';
 import LP3 from '../screens/tuto/LP3';
 import LP4 from '../screens/tuto/LP4';
-import DailyChallengeScreen from '../screens/quiz/DailyChallengeScreen';
-
 // Main App Screens
 import BottomTabNavigator from './BottomTabNavigator';
 import QuestionDetailScreen from '../components/QuestionDetailScreen';
 import PostQuestionScreen from '../components/PostQuestionScreen';
-
+import LearnScreen from '../screens/main/LearnScreen';
+import DailyChallengeScreen from '../screens/quiz/DailyChallengeScreen';
+import Lessons from '../screens/main/Lessons';
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
@@ -47,6 +47,10 @@ const AppNavigator = () => {
             <Stack.Screen name="QuestionDetail" component={QuestionDetailScreen} />
             <Stack.Screen name="PostQuestion" component={PostQuestionScreen} />
             <Stack.Screen name="DailyChallenge" component={DailyChallengeScreen} />
+            <Stack.Screen name="Learn" component={LearnScreen} />
+            <Stack.Screen name="Lessons" component={Lessons} />
+            
+          
           </>
         )}
       </Stack.Navigator>
